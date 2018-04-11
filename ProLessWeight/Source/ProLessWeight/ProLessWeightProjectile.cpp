@@ -36,8 +36,14 @@ void AProLessWeightProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* Other
 	// Only add impulse and destroy projectile if we hit a physics
 	if ((OtherActor != NULL) && (OtherActor != this) && (OtherComp != NULL) && OtherComp->IsSimulatingPhysics())
 	{
-		OtherComp->AddImpulseAtLocation(GetVelocity() * 100.0f, GetActorLocation());
+		OnHitPhysicsBody(HitComp, OtherActor, OtherComp, NormalImpulse, Hit);
+		//OtherComp->AddImpulseAtLocation(GetVelocity() * 100.0f, GetActorLocation());
 
-		Destroy();
+		//Destroy();
 	}
+}
+
+void AProLessWeightProjectile::OnHitPhysicsBody_Implementation(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+{
+
 }
