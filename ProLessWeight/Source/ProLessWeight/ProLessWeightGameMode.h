@@ -4,10 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+#include "PLWGameModeBase.h"
 #include "ProLessWeightGameMode.generated.h"
 
 UCLASS(minimalapi)
-class AProLessWeightGameMode : public AGameModeBase
+class AProLessWeightGameMode : public APLWGameModeBase
 {
 	GENERATED_BODY()
 
