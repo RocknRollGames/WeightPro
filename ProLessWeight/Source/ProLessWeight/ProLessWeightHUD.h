@@ -4,10 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/HUD.h"
+#include "PLWHUDBase.h"
 #include "ProLessWeightHUD.generated.h"
 
 UCLASS()
-class AProLessWeightHUD : public AHUD
+class AProLessWeightHUD : public APLWHUDBase
 {
 	GENERATED_BODY()
 
