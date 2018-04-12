@@ -1,3 +1,0 @@
-D:\GitProjects\WeightPro\ProLessWeight\Source\ProLessWeight\ProLessWeight.Build.cs
-D:\GitProjects\WeightPro\ProLessWeight\Source\ProLessWeight.Target.cs
-D:\GitProjects\WeightPro\ProLessWeight\Source\ProLessWeightEditor.Target.cs
