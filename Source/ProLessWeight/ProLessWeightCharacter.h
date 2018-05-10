@@ -60,10 +60,31 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	class UAnimMontage* FireAnimation;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+	float FireRate = 1.0;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+	bool bFireModeSingle = true;
+
+	UFUNCTION(BlueprintNativeEvent, Category = FireMode)
+	void OnSwitchFireMode();
+
 protected:
 	
 	/** Fires a projectile. */
 	void OnFire();
+	
+	void OnStopFire();
+	void OnStartFire();
+
+	void TryFire();
+
+	
+
+	virtual void Tick(float DeltaSeconds) override;
+
+	float fireDelay = 0.0;
+	bool isFiring = false;
 
 	/** Handles moving forward/backward */
 	void MoveForward(float Val);

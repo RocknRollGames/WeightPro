@@ -89,7 +89,9 @@ void AProLessWeightCharacter::SetupPlayerInputComponent(class UInputComponent* P
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
 	// Bind fire event
-	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AProLessWeightCharacter::OnFire);
+	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AProLessWeightCharacter::OnStartFire);
+	PlayerInputComponent->BindAction("SwitchFireMode", IE_Pressed, this, &AProLessWeightCharacter::OnSwitchFireMode);
+	PlayerInputComponent->BindAction("Fire", IE_Released, this, &AProLessWeightCharacter::OnStopFire);
 
 	// Enable touchscreen input
 	EnableTouchscreenMovement(PlayerInputComponent);
@@ -105,6 +107,51 @@ void AProLessWeightCharacter::SetupPlayerInputComponent(class UInputComponent* P
 	PlayerInputComponent->BindAxis("TurnRate", this, &AProLessWeightCharacter::TurnAtRate);
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 	PlayerInputComponent->BindAxis("LookUpRate", this, &AProLessWeightCharacter::LookUpAtRate);
+}
+void AProLessWeightCharacter::OnStopFire()
+{
+	isFiring = false;
+}
+
+void AProLessWeightCharacter::OnStartFire()
+{
+	isFiring = true;
+	TryFire();
+}
+
+void AProLessWeightCharacter::TryFire()
+{
+	if (bFireModeSingle)
+	{
+		OnFire();
+		return;
+	}
+	if (fireDelay <= 0.0)
+	{
+		OnFire();
+		fireDelay = 1.0 / FireRate;
+	}
+}
+
+void AProLessWeightCharacter::OnSwitchFireMode_Implementation()
+{
+	bFireModeSingle = !bFireModeSingle;
+}
+
+void AProLessWeightCharacter::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+	fireDelay -= DeltaSeconds;
+	fireDelay = fireDelay < 0.0 ? 0.0 : fireDelay;
+	if (isFiring && !bFireModeSingle)
+	{
+		fireDelay -= DeltaSeconds;
+		if (fireDelay <= 0.0)
+		{
+			OnFire();
+			fireDelay = 1.0 / FireRate;
+		}
+	}
 }
 
 void AProLessWeightCharacter::OnFire()
